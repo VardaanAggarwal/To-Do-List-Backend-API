@@ -54,6 +54,22 @@ app.put("/todos/:id", (req, res) => {
     });
   }
 });
+app.delete("/todos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const todo = todos.find((todo) => todo.id === id);
+  // console.log(todo);
+  // console.log(id);
+  if (todo) {
+    todos = todos.filter((todo) => todo.id !== id);
+    res.status(200).json({
+      message: "Done !",
+    });
+  } else {
+    res.status(404).json({
+      error: "To do not found.",
+    });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Your app listening on port ${PORT}`);
