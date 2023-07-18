@@ -1,0 +1,11 @@
+{
+  "name": "to-do-list-backend-api",
+  "version": "1.0.0",
+  "description": "To-Do Backend API using Express JS.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vardaan Aggarwal",
+  "license": "ISC"
+}
