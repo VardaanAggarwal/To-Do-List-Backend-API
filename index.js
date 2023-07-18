@@ -34,6 +34,26 @@ app.post("/todos", (req, res) => {
   todos.push(todo);
   res.status(201).json(todo);
 });
+app.put("/todos/:id", (req, res) => {
+  const todo = todos.findIndex((todo) => todo.id === parseInt(req.params.id));
+  // console.log(todo);
+  if (todo < 0) {
+    res.status(404).json({
+      message: "NOT FOUND !",
+    });
+  } else {
+    const id = todos[todo].id;
+    todos[todo] = {
+      title: req.body.title,
+      completed: req.body.completed,
+      description: req.body.description,
+      id: id,
+    };
+    res.status(200).json({
+      message: "DONE SURR !",
+    });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Your app listening on port ${PORT}`);
