@@ -23,6 +23,17 @@ app.get("/todos/:id", (req, res) => {
     });
   }
 });
+app.post("/todos", (req, res) => {
+  const todo = {
+    title: req.body.title,
+    completed: req.body.completed,
+    description: req.body.description,
+    id: id,
+  };
+  id++;
+  todos.push(todo);
+  res.status(201).json(todo);
+});
 
 app.listen(PORT, () => {
   console.log(`Your app listening on port ${PORT}`);
