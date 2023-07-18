@@ -1,12 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
+const fs = require("fs");
+var todos = require("./todos.json");
 const app = express();
 const PORT = 3000;
-let id = 1;
 app.use(bodyParser.json());
 
-let todos = [];
 app.get("/todos", (req, res) => {
   res.status(200).send(todos);
 });
@@ -28,11 +27,13 @@ app.post("/todos", (req, res) => {
     title: req.body.title,
     completed: req.body.completed,
     description: req.body.description,
-    id: id,
+    id: Math.floor(Math.random() * 100000),
   };
-  id++;
+
   todos.push(todo);
-  res.status(201).json(todo);
+  fs.writeFile("./todos.json", JSON.stringify(todos), (err, data) => {
+    res.status(201).json({ status: "Done!" });
+  });
 });
 app.put("/todos/:id", (req, res) => {
   const todo = todos.findIndex((todo) => todo.id === parseInt(req.params.id));
@@ -50,7 +51,7 @@ app.put("/todos/:id", (req, res) => {
       id: id,
     };
     res.status(200).json({
-      message: "DONE SURR !",
+      status: "Done!",
     });
   }
 });
@@ -62,7 +63,7 @@ app.delete("/todos/:id", (req, res) => {
   if (todo) {
     todos = todos.filter((todo) => todo.id !== id);
     res.status(200).json({
-      message: "Done !",
+      status: "Done!",
     });
   } else {
     res.status(404).json({
