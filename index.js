@@ -1,11 +1,16 @@
 const express = require("express");
-const app = express();
-const port = 3000;
+const bodyParser = require("body-parser");
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+const app = express();
+const PORT = 3000;
+let id = 1;
+app.use(bodyParser.json());
+
+let todos = [];
+app.get("/todos", (req, res) => {
+  res.status(200).send(todos);
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Your app listening on port ${PORT}`);
 });
