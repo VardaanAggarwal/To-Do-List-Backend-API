@@ -6,6 +6,30 @@
     <title>To-do List App</title>
   </head>
   <script>
+    function renderTodo() {
+      const el = document.getElementById("todos");
+      fetch(`http://localhost:3000/todos`, {
+        method: "GET",
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          data.map((todo) => {
+            const op = `
+            <br>
+            <div class = "todo">
+              <p>Title : ${todo.title}</p>
+              <p>Description : ${todo.description}</p>
+              <p>Completed : ${todo.completed ? " Done " : "Not Done"}</p>
+              </div>
+              <br>
+            `;
+            document.getElementById("todos").innerHTML += op;
+          });
+        });
+    }
+    renderTodo();
     const del = () => {
       let id = document.getElementById("todo-id").value;
       fetch(`http://localhost:3000/todos/${id}`, {
@@ -35,6 +59,8 @@
         },
       }).then(async (response) => {
         console.log(await response.json());
+        document.getElementById("todos").innerHTML = ``;
+        renderTodo();
       });
     };
   </script>
@@ -44,8 +70,9 @@
     Todo Description
     <input type="text" id="description" />
     <button onclick="onPress()">send todo</button>
-    Delete Todo
-    <input type="text" id="todo-id" />
-    <button onclick="del()">delete todo</button>
+    <!-- Delete Todo -->
+    <!-- <input type="text" id="todo-id" />
+    <button onclick="del()">delete todo</button> -->
+    <div id="todos"></div>
   </body>
 </html>
