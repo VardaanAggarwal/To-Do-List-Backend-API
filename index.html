@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-do List App</title>
+  </head>
+  <script>
+    const del = () => {
+      let id = document.getElementById("todo-id").value;
+      fetch(`http://localhost:3000/todos/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          document.getElementById("todo-id").value = "";
+        });
+    };
+    const onPress = () => {
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("description").value;
+
+      fetch("http://localhost:3000/todos", {
+        method: "POST",
+        body: JSON.stringify({
+          title: title,
+          description: description,
+          completed: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(async (response) => {
+        console.log(await response.json());
+      });
+    };
+  </script>
+  <body>
+    Todo title
+    <input type="text" id="title" />
+    Todo Description
+    <input type="text" id="description" />
+    <button onclick="onPress()">send todo</button>
+    Delete Todo
+    <input type="text" id="todo-id" />
+    <button onclick="del()">delete todo</button>
+  </body>
+</html>

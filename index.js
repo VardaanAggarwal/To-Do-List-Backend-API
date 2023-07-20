@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const bodyParser = require("body-parser");
 const fs = require("fs");
 var todos = require("./todos.json");
@@ -62,8 +63,10 @@ app.delete("/todos/:id", (req, res) => {
   // console.log(id);
   if (todo) {
     todos = todos.filter((todo) => todo.id !== id);
-    res.status(200).json({
-      status: "Done!",
+    fs.writeFile("./todos.json", JSON.stringify(todos), (err, data) => {
+      res.status(200).json({
+        status: "Done!",
+      });
     });
   } else {
     res.status(404).json({
@@ -71,7 +74,9 @@ app.delete("/todos/:id", (req, res) => {
     });
   }
 });
-
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
 app.listen(PORT, () => {
   console.log(`Your app listening on port ${PORT}`);
 });
